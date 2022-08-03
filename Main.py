@@ -1,6 +1,8 @@
 import Credentials
 import tweepy
 import json
+import pandas as pd
+import re
 
 
 def main():
@@ -8,19 +10,28 @@ def main():
     obj = Credentials.Credentials()
     jsonFile = Credentials.Credentials().ReadCredentialInfo(
         obj, 'TwitterDeveloperInfo.json')
-    apiKey = jsonFile['api key']
-    apiKeySecret = jsonFile['api key secret']
     bearerToken = jsonFile['bearer token']
-    accessToken = jsonFile['access token']
-    accessTokenSecret = jsonFile['access token secret']
 
     # open session with api
     client = tweepy.Client(bearer_token=bearerToken)
-    result = 'from: BillGates -is:retweet'
-    tweets = client.search_recent_tweets(query=result, max_results=10)
+    result = 'abortion'
+    tweets = client.search_recent_tweets(query=result, max_results=100)
+    tweetList = []
 
     for tweet in tweets.data:
-        print(tweet.text)
+        tweetList.append(tweet.text)
+
+    cleanList = RemovePunctuation(tweetList)
+    dataFrame = pd.DataFrame(cleanList, columns=['Tweets'])
+    print(dataFrame.head())
+
+
+def RemovePunctuation(tweetList):
+    newTweets = []
+    for tweet in tweetList:
+        cleanTweet = re.sub(r'\W+', ' ', tweet)
+        newTweets.append(cleanTweet)
+    return newTweets
 
 
 main()
