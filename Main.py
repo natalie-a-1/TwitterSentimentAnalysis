@@ -1,8 +1,14 @@
 import Credentials
-import tweepy
 import json
+import tweepy
+# import textblob as TextBlob
+from textblob import TextBlob
+import wordcloud as WordCloud
 import pandas as pd
+import numpy as np
 import re
+import matplotlib.pyplot as plt
+plt.style.use('fivethirtyeight')
 
 
 def main():
@@ -19,12 +25,31 @@ def main():
 
     dataFrame = pd.DataFrame(
         [tweet.text for tweet in tweets.data], columns=['Tweets'])
-    dataFrame['Tweets'] = dataFrame['Tweets'].apply(RemovePunctuation)
-    print(dataFrame.head())
+
+    dataFrame['Tweets'] = dataFrame['Tweets'].apply(removePunctuation)
+
+    dataFrame['Subjectivity'] = dataFrame['Tweets'].apply(getSubjectivity)
+
+    dataFrame['Polarity'] = dataFrame['Tweets'].apply(getPolarity)
+
+    print(dataFrame)
 
 
-def RemovePunctuation(tweet):
-    return re.sub(r'\W+', ' ', tweet)
+def removePunctuation(tweet):
+    tweet = re.sub(r'\W+', ' ', tweet)
+    tweet = re.sub(r'#', ' ', tweet)
+    tweet = re.sub(r'_', ' ', tweet)
+    tweet = re.sub(r'https?:\/\/\S+', ' ', tweet)
+    tweet = re.sub(r'RT[\s]+', ' ', tweet)
+    return tweet.lower()
+
+
+def getSubjectivity(tweet):
+    return TextBlob(tweet).sentiment.subjectivity
+
+
+def getPolarity(tweet):
+    return TextBlob(tweet).sentiment.polarity
 
 
 main()
