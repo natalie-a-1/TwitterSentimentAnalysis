@@ -14,24 +14,17 @@ def main():
 
     # open session with api
     client = tweepy.Client(bearer_token=bearerToken)
-    result = 'abortion'
-    tweets = client.search_recent_tweets(query=result, max_results=100)
-    tweetList = []
+    result = 'Bill Gates'
+    tweets = client.search_recent_tweets(query=result, max_results=10)
 
-    for tweet in tweets.data:
-        tweetList.append(tweet.text)
-
-    cleanList = RemovePunctuation(tweetList)
-    dataFrame = pd.DataFrame(cleanList, columns=['Tweets'])
+    dataFrame = pd.DataFrame(
+        [tweet.text for tweet in tweets.data], columns=['Tweets'])
+    dataFrame['Tweets'] = dataFrame['Tweets'].apply(RemovePunctuation)
     print(dataFrame.head())
 
 
-def RemovePunctuation(tweetList):
-    newTweets = []
-    for tweet in tweetList:
-        cleanTweet = re.sub(r'\W+', ' ', tweet)
-        newTweets.append(cleanTweet)
-    return newTweets
+def RemovePunctuation(tweet):
+    return re.sub(r'\W+', ' ', tweet)
 
 
 main()
