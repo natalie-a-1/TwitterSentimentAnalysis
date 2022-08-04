@@ -3,7 +3,7 @@ import json
 import tweepy
 # import textblob as TextBlob
 from textblob import TextBlob
-import wordcloud as WordCloud
+from wordcloud import WordCloud
 import pandas as pd
 import numpy as np
 import re
@@ -20,8 +20,8 @@ def main():
 
     # open session with api
     client = tweepy.Client(bearer_token=bearerToken)
-    result = 'Bill Gates'
-    tweets = client.search_recent_tweets(query=result, max_results=10)
+    result = 'abortion'
+    tweets = client.search_recent_tweets(query=result, max_results=5)
 
     dataFrame = pd.DataFrame(
         [tweet.text for tweet in tweets.data], columns=['Tweets'])
@@ -32,7 +32,11 @@ def main():
 
     dataFrame['Polarity'] = dataFrame['Tweets'].apply(getPolarity)
 
+    dataFrame['Analyze'] = dataFrame['Polarity'].apply(analyze)
     print(dataFrame)
+
+    allWords = ' '.join(tweet for tweet in dataFrame['Tweets'])
+    # createWordCloud(allWords)
 
 
 def removePunctuation(tweet):
@@ -50,6 +54,23 @@ def getSubjectivity(tweet):
 
 def getPolarity(tweet):
     return TextBlob(tweet).sentiment.polarity
+
+
+def analyze(score):
+    if score > 0:
+        return 'Positive'
+    elif score == 0:
+        return 'Neutral'
+    else:
+        return 'Negative'
+
+
+def createWordCloud(allWords):
+    wordCloud = WordCloud(width=600, height=300, random_state=21,
+                          max_font_size=100).generate(allWords)
+    plt.imshow(wordCloud, interpolation='bilinear')
+    plt.axis('off')
+    return plt.show()
 
 
 main()
