@@ -7,6 +7,7 @@ from wordcloud import WordCloud
 import pandas as pd
 import numpy as np
 import re
+import Visual
 import matplotlib.pyplot as plt
 plt.style.use('fivethirtyeight')
 
@@ -21,7 +22,7 @@ def main():
     # open session with api
     client = tweepy.Client(bearer_token=bearerToken)
     result = 'abortion'
-    tweets = client.search_recent_tweets(query=result, max_results=5)
+    tweets = client.search_recent_tweets(query=result, max_results=100)
 
     dataFrame = pd.DataFrame(
         [tweet.text for tweet in tweets.data], columns=['Tweets'])
@@ -33,10 +34,14 @@ def main():
     dataFrame['Polarity'] = dataFrame['Tweets'].apply(getPolarity)
 
     dataFrame['Analyze'] = dataFrame['Polarity'].apply(analyze)
-    print(dataFrame)
+    # print(dataFrame)
 
     allWords = ' '.join(tweet for tweet in dataFrame['Tweets'])
+
+    plot = Visual.Visual().CreateVisual(obj, dataFrame)
+    # print(plot.show())
     # createWordCloud(allWords)
+    print(getPercentage(dataFrame, "positive"))
 
 
 def removePunctuation(tweet):
@@ -71,6 +76,20 @@ def createWordCloud(allWords):
     plt.imshow(wordCloud, interpolation='bilinear')
     plt.axis('off')
     return plt.show()
+
+
+def getPercentage(dataFrame, typeOfRating):
+    if (typeOfRating.lower() == 'positive'):
+        tweets = dataFrame[dataFrame.Analyze == 'Positive']
+        tweets = tweets['Tweets']
+    elif (typeOfRating.lower() == 'negative'):
+        tweets = dataFrame[dataFrame.Analysis == 'Negative']
+        tweets = tweets['Tweets']
+    else:
+        raise ValueError(
+            "Please set typeOfRating to either positive or negative.")
+
+    return str(round(tweets.shape[0]/dataFrame.shape[0]*100, 1)) + '%'
 
 
 main()
