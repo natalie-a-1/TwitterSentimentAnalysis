@@ -1,22 +1,31 @@
-# TwitterSentimentAnalysis
-<h2 align="center">Project Description</h2>
-<p align="center">This Project uses python to pull data from twitter using the v2 API. Libraries such as the ones listed below are used to analyze the text. The data is primarily analyzed using TextBlob's sentiment and polarity algorithms. This project takes in personalized queries and searches the most recent Twitter posts related to the query. The data is then cleaned and gathered in a way that it can be utilized for examination. Following this process, the cleaned data is analyzed by TextBlob for sentiment and polarity ratio. These findings can then be used to create visuals such as python DataFrames, WordClouds and sentiment/polarity plot graphs. </p>
+# Twitter Data Analysis with Python
 
-![alt text](https://files.realpython.com/media/How-to-use-NLTK-for-Sentiment-Analysis-in-Python_Watermarked.05ff07ca7ec7.jpg)
-<h3>Libraries Used</h3>
+This project leverages Python to extract data from Twitter using the v2 API. It utilizes various libraries, including the ones listed below, to analyze textual content. The primary focus is on employing TextBlob's sentiment and polarity algorithms for data analysis.
 
-- numpy 
-- pandas 
-- textblob 
-- wordcloud  
-- matplotlib.pyplot
+## Features
 
-<h2 align="center">Example Using the Query "Abortion" With Max Results Set to Ten and Excluding Retweets</h2>
+- Pulls data from Twitter using the v2 API.
+- Performs text analysis with TextBlob's sentiment and polarity algorithms.
+- Customizable queries to search the most recent Twitter posts.
+- Data cleaning and preprocessing to ensure usability for examination.
+- Generate insightful visuals such as Python DataFrames, WordClouds, and sentiment/polarity plot graphs based on the analyzed data.
 
-<h3>DataFrame</h3>
-<img width="977" alt="dataframe" src="https://user-images.githubusercontent.com/98536588/183319142-26fc2bde-29f6-49a3-85c4-72eb56b341e5.png">
-<h3>WordCloud</h3>
-<img width="868" alt="wordcloud" src="https://user-images.githubusercontent.com/98536588/183319319-3f23e52a-0707-46d8-9980-c4cd23e88952.png">
-<h3>PlotGraph</h3>
+## Requirements
+
+Before running the project, make sure you have the following libraries installed:
+
+- List of required Python libraries (e.g., tweepy, TextBlob, pandas, matplotlib).
+
+## Usage
+
+1. Clone the repository to your local machine.
+2. Install the required libraries using pip or conda (see Requirements section).
+3. Run the main script (e.g., `twitter_data_analysis.py`).
+4. Input your personalized queries when prompted to search for related Twitter posts.
+5. Observe the data analysis results and generated visualizations.
+
+Feel free to customize and expand the project to suit your specific needs. If you encounter any issues or have suggestions for improvements, please open an issue or submit a pull request.
+
+Happy Twitter data analysis with Python!
 <img width="821" alt="plotGraph" src="https://user-images.githubusercontent.com/98536588/183319434-62fcf69a-feac-49d1-85e4-2ddc6992b17f.png">
 
