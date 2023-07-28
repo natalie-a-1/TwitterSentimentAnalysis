@@ -1,4 +1,4 @@
-# Twitter Data Analysis with Python
+# Twitter Sentiment Analysis with Python
 
 This project leverages Python to extract data from Twitter using the v2 API. It utilizes various libraries, including the ones listed below, to analyze textual content. The primary focus is on employing TextBlob's sentiment and polarity algorithms for data analysis.
 
